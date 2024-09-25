@@ -26,7 +26,7 @@ jobs:
       - run:
           name: Deploy app to server demo
           command: |
-            ssh -o StrictHostKeyChecking=no his-admin@167.172.87.79 "cd /home/cis-admin/socket-cis/ && ./deploy.sh"
+            ssh -o StrictHostKeyChecking=no root@167.172.87.79 "cd /home/cis-admin/socket-cis/ && ./deploy.sh"
 workflows:
   basic-workflow:
     jobs:

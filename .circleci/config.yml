@@ -1,1 +1,37 @@
-s
+version: 2.1
+jobs:
+  build-production:
+    machine:
+      image: ubuntu-2004:current
+    resource_class: medium
+    steps:
+      - checkout
+      - run:
+          name: Login to dockerhub
+          command: |
+            echo "$DOCKER_PASS" | docker login --username $DOCKER_USER --password-stdin
+      - run:
+          name: Build dockerfile
+          command: |
+            docker build --no-cache -t dockerhiscis/socket-cis:$CIRCLE_SHA1 .
+      - run:
+          name: Push Docker Image
+          command: |
+            docker push dockerhiscis/socket-cis:$CIRCLE_SHA1
+            docker tag dockerhiscis/socket-cis:$CIRCLE_SHA1 dockerhiscis/socket-cis:socket-cis-production-latest
+            docker push dockerhiscis/socket-cis:socket-cis-production-latest
+      - add_ssh_keys:
+          fingerprints:
+            - 'SHA256:lriG1/0Y6GfXzRCFWuoe6KQ3x/asa+IieJfJpe+3k5s'
+      - run:
+          name: Deploy app to server demo
+          command: |
+            ssh -o StrictHostKeyChecking=no his-admin@103.24.149.107 "cd /home/his-admin/deployer/ && ./deploy-socket-pharmm.sh"
+workflows:
+  basic-workflow:
+    jobs:
+      - build-production:
+          filters:
+            branches:
+              only:
+                - production

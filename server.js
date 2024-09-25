@@ -22,7 +22,7 @@ app.get('/health', (req, res) => {
 io.on('connection', function (socket) {
   socket.on('test', function (msg, res) {
     console.log(msg);
-    res(msg); //untuk memberikan response ke client sebagai penanda data diterima
+    res(msg);
     io.sockets.emit('test-callback', msg);
   });
 });

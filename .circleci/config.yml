@@ -22,11 +22,11 @@ jobs:
             docker push dockerhiscis/socket-cis:socket-cis-production-latest
       - add_ssh_keys:
           fingerprints:
-            - 'SHA256:lriG1/0Y6GfXzRCFWuoe6KQ3x/asa+IieJfJpe+3k5s'
+            - 'SHA256:mFFo96GsvTZ9QibIzSMIA0ESehKw2h4ASkC3T/+munE'
       - run:
           name: Deploy app to server demo
           command: |
-            ssh -o StrictHostKeyChecking=no his-admin@103.24.149.107 "cd /home/his-admin/deployer/ && ./deploy-socket-pharmm.sh"
+            ssh -o StrictHostKeyChecking=no his-admin@167.172.87.79 "cd /home/cis-admin/socket-cis/ && ./deploy.sh"
 workflows:
   basic-workflow:
     jobs:

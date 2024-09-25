@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  socketio_server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: his/socketio:${BUILD_DATE}.${BUILD_VERSION}
+    container_name: socketio_server
+    ports:
+      - '3000:3000'
+    tty: true
